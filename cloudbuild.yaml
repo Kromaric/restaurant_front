@@ -3,7 +3,7 @@ substitutions:
   _REPO_NAME: 'my-crud-app-front-repo'
   _IMAGE_NAME: 'my-crud-app-front'
   _SERVICE_NAME: 'my-crud-app-front'
-  _PORT: '3000'
+  _PORT: '8080'
 
 steps:
   # Step 1: Build Docker Image

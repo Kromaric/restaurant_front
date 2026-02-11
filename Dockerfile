@@ -1,41 +1,24 @@
 # ==========================================
-# Stage 1: Builder - Compilation de l'app
+# Stage 1: Builder - Compilation de React
 # ==========================================
 FROM node:20-alpine AS builder
-
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers de dépendances
 COPY package*.json ./
+RUN npm ci
 
-# Installer toutes les dépendances (dev + prod)
-RUN npm install
-
-# Copier tout le code source
 COPY . .
-
-# Compiler l'application TypeScript
-RUN npm run build && ls -la dist/
+RUN npm run build
 
 # ==========================================
-# Stage 2: Production - Image finale légère
+# Stage 2: Production - Serveur Web Nginx
 # ==========================================
-FROM node:20-alpine AS production
+FROM nginx:stable-alpine AS production
 
-# Définir le répertoire de travail
-WORKDIR /app
+# On copie les fichiers compilés de React vers le dossier public de Nginx
+COPY --from=builder /app/build /usr/share/nginx/html
 
-# Copier uniquement les fichiers nécessaires depuis le builder
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
+# Exposer le port 80 (standard pour Nginx)
+EXPOSE 80
 
-# Exposer le port 3000
-EXPOSE 3000
-
-# Variable d'environnement pour la production
-ENV NODE_ENV=production
-
-# Commande pour démarrer l'application
-CMD ["node", "dist/main.js"]
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,9 +1,33 @@
+# Dépendances et builds
 node_modules
 dist
-.git
+build
+out
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+
+# Environnement et secrets
 .env
-.dockerignore
-npm-debug.log
+.env.*
+!.env.example
+.git
+.gitignore
+
+# IDE / Éditeurs
 .vscode
 .idea
+*.swp
+*.swo
+
+# Tests et couvertures
 coverage
+.nyc_output
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml

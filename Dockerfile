@@ -1,24 +1,23 @@
-# ==========================================
-# Stage 1: Builder - Compilation de React
-# ==========================================
+# Stage 1: Build
 FROM node:20-alpine AS builder
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install
-
 COPY . .
 RUN npm run build
 
-# ==========================================
-# Stage 2: Production - Serveur Web Nginx
-# ==========================================
+# Stage 2: Production
 FROM nginx:stable-alpine AS production
-
-# On copie les fichiers compilés de React vers le dossier public de Nginx
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Exposer 
-EXPOSE 8080
+RUN echo "server { \
+    listen 8080; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html index.htm; \
+        try_files \$uri \$uri/ /index.html; \
+    } \
+}" > /etc/nginx/conf.d/default.conf
 
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

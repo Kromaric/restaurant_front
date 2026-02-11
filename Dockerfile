@@ -19,6 +19,6 @@ FROM nginx:stable-alpine AS production
 COPY --from=builder /app/build /usr/share/nginx/html
 
 # Exposer 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]

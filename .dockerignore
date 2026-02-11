@@ -1,7 +1,7 @@
 # Dépendances et builds
 node_modules
 dist
-build
+build/
 out
 
 # Logs

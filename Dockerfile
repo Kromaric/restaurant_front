@@ -18,7 +18,7 @@ FROM nginx:stable-alpine AS production
 # On copie les fichiers compilés de React vers le dossier public de Nginx
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Exposer le port 80 (standard pour Nginx)
-EXPOSE 80
+# Exposer 
+EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"]

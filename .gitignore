@@ -72,4 +72,3 @@ prisma/migrations/
 docker-compose.override.yml
 .dockerignore
 docker-compose.yml
-package-lock.json

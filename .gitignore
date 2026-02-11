@@ -70,5 +70,4 @@ prisma/migrations/
 
 # Optional: Docker
 docker-compose.override.yml
-.dockerignore
 docker-compose.yml

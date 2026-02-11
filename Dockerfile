@@ -10,13 +10,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer toutes les dépendances (dev + prod)
-RUN npm ci
+RUN npm install
 
 # Copier tout le code source
 COPY . .
 
 # Compiler l'application TypeScript
-RUN npm run build
+RUN npm run build && ls -la dist/
 
 # ==========================================
 # Stage 2: Production - Image finale légère
@@ -29,7 +29,7 @@ WORKDIR /app
 # Copier uniquement les fichiers nécessaires depuis le builder
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
-RUN npm install --omit=dev
+COPY --from=builder /app/node_modules ./node_modules
 
 # Exposer le port 3000
 EXPOSE 3000
